@@ -21,6 +21,16 @@ async function main() {
         const getData = await circulationRepo.get();
         assert.equal(data.length, getData.length, 'Amount of documents returned are different than expected');
 
+        // get functionality (with query and limit of results):
+        const filteredData = await circulationRepo.get({Newspaper: getData[4].Newspaper});
+        assert.deepEqual(filteredData[0], getData[4]);
+
+            // get with skip and limit functionality
+        const skippedAndLimitedData = await circulationRepo.get({}, 6, 3);
+        assert.equal(skippedAndLimitedData.length, 3);
+            // if we skipped 6 documents, the first element in the result must be Newspaper: 'New York Post'
+        assert.equal(skippedAndLimitedData[0].Newspaper, 'New York Post');        
+
     } catch (error) {
         console.log(error);
     } finally {

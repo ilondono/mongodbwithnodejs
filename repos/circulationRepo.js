@@ -28,7 +28,7 @@ function circulationRepo() {
         
     }
 
-    function get() {
+    function get(query, skipped, maxResults) {
         return new Promise(async (resolve, reject) => {
 
             const client = new MongoClient(url);
@@ -36,8 +36,35 @@ function circulationRepo() {
             try {
                 await client.connect();
                 const db = client.db(dbName);
-                const items = await db.collection('newspapers').find().toArray();
-                resolve(items);
+                let items = await db.collection('newspapers').find(query);
+
+                // THESE ARE EXAMPLES OF ANOTHER FUNCTIONS THAT CAN BE USED:
+                    // collection.find({}).project({ a: 1 })                             // Create a projection of field a
+                    // collection.find({}).skip(1).limit(10)                          // Skip 1 and limit 10
+                    // collection.find({}).batchSize(5)                               // Set batchSize on cursor to 5
+                    // collection.find({}).filter({ a: 1 })                              // Set query on the cursor
+                    // collection.find({}).comment('add a comment')                   // Add a comment to the query, allowing to correlate queries
+                    // collection.find({}).addCursorFlag('tailable', true)            // Set cursor as tailable
+                    // collection.find({}).addCursorFlag('oplogReplay', true)         // Set cursor as oplogReplay
+                    // collection.find({}).addCursorFlag('noCursorTimeout', true)     // Set cursor as noCursorTimeout
+                    // collection.find({}).addCursorFlag('awaitData', true)           // Set cursor as awaitData
+                    // collection.find({}).addCursorFlag('exhaust', true)             // Set cursor as exhaust
+                    // collection.find({}).addCursorFlag('partial', true)             // Set cursor as partial
+                    // collection.find({}).addQueryModifier('$orderby', { a: 1 })        // Set $orderby {a:1}
+                    // collection.find({}).max(10)                                    // Set the cursor max
+                    // collection.find({}).maxTimeMS(1000)                            // Set the cursor maxTimeMS
+                    // collection.find({}).min(100)                                   // Set the cursor min
+                    // collection.find({}).returnKey(10)                              // Set the cursor returnKey
+                    // collection.find({}).setReadPreference(ReadPreference.PRIMARY)  // Set the cursor readPreference
+                    // collection.find({}).showRecordId(true)                         // Set the cursor showRecordId
+                    // collection.find({}).sort([['a', 1]])                           // Sets the sort order of the cursor query
+                    // collection.find({}).hint('a_1')                                // Set the cursor hint
+
+                if (maxResults > 0) {
+                    items = items.skip(skipped).limit(maxResults);
+                }
+
+                resolve(await items.toArray());
             } catch (error) {
                 reject(error);
             } finally {
