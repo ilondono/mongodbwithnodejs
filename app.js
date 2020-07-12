@@ -4,7 +4,6 @@ const assert = require('assert');
 
 const circulationRepo = require('./repos/circulationRepo');
 const data = require('./circulation.json');
-const { AssertionError } = require('assert');
 
 const url = 'mongodb://localhost:27017';
 const dbName = 'circulation';
@@ -75,11 +74,14 @@ async function main() {
 
         //  ### MONGO DB AGGREGATION PIPELINE ###
 
+        // Simple average by a given attribute.
         const avg = await circulationRepo.averageFinalists();
         console.log('Average finalists:', avg);
 
-
-
+        // Grouping results by change.
+        const avgByChange = await circulationRepo.averageFinalistsByChange();
+        console.log('Average finalists by change', avgByChange);
+  
     } catch (error) {
         console.log(error);
     } finally {
