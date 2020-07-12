@@ -16,6 +16,6 @@ This is an example of how to use **MongoDB** with **Node.js**.
 
 - Once the project was created, we need to install **MongoDB** package:
   
-  `npm install monogdb`
+  `npm install mongodb`
 
 - The initial configuration is done. Next, we need to create **app.js** at the same level of **package.json** that was created when **npm init** command was executed:
