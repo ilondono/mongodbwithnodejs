@@ -1,0 +1,22 @@
+{
+  "name": "mongodbwithnodejs",
+  "version": "1.0.0",
+  "description": "Using MongoDB with Node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ilondono/mongodbwithnodejs.git"
+  },
+  "author": "ilondono",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ilondono/mongodbwithnodejs/issues"
+  },
+  "homepage": "https://github.com/ilondono/mongodbwithnodejs#readme",
+  "dependencies": {
+    "mongodb": "^3.5.9"
+  }
+}
