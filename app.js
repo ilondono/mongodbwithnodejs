@@ -1,5 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
 
+const assert = require('assert');
+
 const circulationRepo = require('./repos/circulationRepo');
 const data = require('./circulation.json');
 
@@ -13,7 +15,12 @@ async function main() {
 
     try {
         const results = await circulationRepo.loadData(data);
-        console.log(results.insertedCount, results.ops);
+        //console.log(results.insertedCount, results.ops);
+
+        // get functionality (all results, no query specified):
+        const getData = await circulationRepo.get();
+        assert.equal(data.length, getData.length, 'Amount of documents returned are different than expected');
+
     } catch (error) {
         console.log(error);
     } finally {

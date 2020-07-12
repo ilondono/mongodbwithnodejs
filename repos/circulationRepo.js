@@ -16,10 +16,11 @@ function circulationRepo() {
                 await client.connect();
                 const db = client.db(dbName);
                 results = await db.collection('newspapers').insertMany(data);                
-                resolve(results);
-                client.close();
+                resolve(results);                
             } catch (error) {
                 reject(error);
+            } finally {
+                client.close();
             }
 
         });
@@ -27,7 +28,26 @@ function circulationRepo() {
         
     }
 
-    return { loadData }
+    function get() {
+        return new Promise(async (resolve, reject) => {
+
+            const client = new MongoClient(url);
+
+            try {
+                await client.connect();
+                const db = client.db(dbName);
+                const items = await db.collection('newspapers').find().toArray();
+                resolve(items);
+            } catch (error) {
+                reject(error);
+            } finally {
+                client.close();
+            }
+
+        });
+    }
+
+    return { loadData, get }
 
 }
 
