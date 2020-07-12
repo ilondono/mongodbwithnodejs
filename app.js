@@ -29,8 +29,13 @@ async function main() {
         const skippedAndLimitedData = await circulationRepo.get({}, 6, 3);
         assert.equal(skippedAndLimitedData.length, 3);
             // if we skipped 6 documents, the first element in the result must be Newspaper: 'New York Post'
-        assert.equal(skippedAndLimitedData[0].Newspaper, 'New York Post');        
-
+        assert.equal(skippedAndLimitedData[0].Newspaper, 'New York Post');    
+        
+        // get a specific record by id.
+        const id = getData[13]._id.toString();
+        const resultById = await circulationRepo.getById(id);
+        assert.deepEqual(resultById, getData[13]);
+        
     } catch (error) {
         console.log(error);
     } finally {

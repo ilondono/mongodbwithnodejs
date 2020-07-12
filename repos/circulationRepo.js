@@ -1,5 +1,5 @@
 //Same result as the first line of app.js, but here is more simple using destructuring.
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectID } = require('mongodb');
 
 const url = 'mongodb://localhost:27017';
 const dbName = 'circulation';
@@ -74,7 +74,28 @@ function circulationRepo() {
         });
     }
 
-    return { loadData, get }
+    function getById(id) {
+        return new Promise(async (resolve, reject) => {
+
+            const client = new MongoClient(url);
+
+            try {
+                await client.connect();
+                const db = client.db(dbName);
+                // The id received as a parameter is a String, but MongoDB requires a ObjectID.
+                const item = await db.collection('newspapers').findOne({_id: ObjectID(id)});
+                console.log(item);
+                resolve(item);
+            } catch (error) {
+                reject(error);
+            } finally {
+                client.close();
+            }
+
+        });
+    }
+
+    return { loadData, get, getById }
 
 }
 
