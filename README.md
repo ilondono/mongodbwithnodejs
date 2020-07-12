@@ -20,4 +20,27 @@ This is an example of how to use **MongoDB** with **Node.js**.
   
   `npm install mongodb`
 
-- The initial configuration is done. Next, we need to create **app.js** at the same level of **package.json** that was created when **npm init** command was executed:
+- The initial configuration is done. Next, we need to create **app.js** at the same level of **package.json** that was created when **npm init** command was executed.
+  This is the minimal content that we should have in the file:
+
+  ```
+  const MongoClient = require('mongodb').MongoClient;
+
+  const url = 'mongodb://localhost:27017';
+  const dbName = 'circulation';
+
+  async function main() {
+
+      const client = new MongoClient(url);
+      await client.connect();
+      const admin = client.db(dbName).admin();
+      console.log(await admin.listDatabases());
+      client.close();
+  }
+
+  main();
+  ```
+
+- This code can be executed with the following command:
+
+`node app.js`
