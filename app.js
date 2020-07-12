@@ -73,6 +73,13 @@ async function main() {
         const deletedItem = await circulationRepo.getById(addedItem._id);
         assert.equal(deletedItem, null);
 
+        //  ### MONGO DB AGGREGATION PIPELINE ###
+
+        const avg = await circulationRepo.averageFinalists();
+        console.log('Average finalists:', avg);
+
+
+
     } catch (error) {
         console.log(error);
     } finally {

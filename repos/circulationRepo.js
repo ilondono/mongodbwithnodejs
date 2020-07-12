@@ -82,7 +82,7 @@ function circulationRepo() {
             try {
                 await client.connect();
                 const db = client.db(dbName);
-                // The id received as a parameter is a String, but MongoDB requires a ObjectID.
+                // The id received as a parameter is a String, but MongoDB requires an ObjectID.
                 const item = await db.collection('newspapers').findOne({_id: ObjectID(id)});
                 resolve(item);
             } catch (error) {
@@ -149,7 +149,31 @@ function circulationRepo() {
         });
     }
 
-    return { loadData, get, getById, add, update, remove }
+    function averageFinalists() {
+        return new Promise(async(resolve, reject) => {
+
+            const client = new MongoClient(url);
+
+            try {
+                await client.connect();
+                const db = client.db(dbName);
+                const average = await db.collection('newspapers')
+                    .aggregate(
+                        [
+                            {$group:{_id: null, avgFinalists:{$avg: "$Pulitzer Prize Winners and Finalists, 1990-2014"}}}
+                        ]
+                    ).toArray();
+
+                resolve(average[0].avgFinalists);
+            } catch (error) {
+                reject(error);
+            } finally {
+                client.close();
+            }
+        });
+    }
+
+    return { loadData, get, getById, add, update, remove, averageFinalists }
 
 }
 
