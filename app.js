@@ -68,8 +68,10 @@ async function main() {
         assert.deepEqual(updatedItemSearched.Newspaper, 'Daily Prophet');
 
         // remove
-
-
+        const removed = await circulationRepo.remove(addedItem._id);
+        assert(removed);
+        const deletedItem = await circulationRepo.getById(addedItem._id);
+        assert.equal(deletedItem, null);
 
     } catch (error) {
         console.log(error);
