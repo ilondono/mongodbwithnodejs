@@ -84,7 +84,6 @@ function circulationRepo() {
                 const db = client.db(dbName);
                 // The id received as a parameter is a String, but MongoDB requires a ObjectID.
                 const item = await db.collection('newspapers').findOne({_id: ObjectID(id)});
-                console.log(item);
                 resolve(item);
             } catch (error) {
                 reject(error);
@@ -95,7 +94,25 @@ function circulationRepo() {
         });
     }
 
-    return { loadData, get, getById }
+    function add(item) {
+        return new Promise(async(resolve, reject) => {
+
+            const client = new MongoClient(url);
+
+            try {
+                await client.connect();
+                const db = client.db(dbName);
+                const addedItem = await db.collection('newspapers').insertOne(item);                
+                resolve(addedItem.ops[0]);
+            } catch (error) {
+                reject(error);
+            } finally {
+                client.close();
+            }
+        });
+    }
+
+    return { loadData, get, getById, add }
 
 }
 
