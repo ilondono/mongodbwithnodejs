@@ -2,7 +2,7 @@
 
 This is an example of how to use **MongoDB** with **Node.js**.
 
-> ⚠️ Previous installation of **MongoDB** is required.
+> :warning: Previous installation of **MongoDB** is required.
 
 ---
 
