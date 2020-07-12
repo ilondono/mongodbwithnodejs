@@ -2,7 +2,7 @@
 
 This is an example of how to use **MongoDB** with **Node.js**.
 
-> Previous installation of **MongoDB** is required.
+> ⚠️ Previous installation of **MongoDB** is required.
 
 ---
 
@@ -11,6 +11,8 @@ This is an example of how to use **MongoDB** with **Node.js**.
 - Create a new project:
   
   `npm init`
+
+  The result should be a file named package.json.
 
 > There are some values that you should set during the project creation such as **name of the package**, **version**, **Entry point (usually index.js)**, **git repository (if any)** and so on.
 
