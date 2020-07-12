@@ -64,6 +64,12 @@ async function main() {
         });
         assert.equal(updatedItem.Newspaper, 'Daily Prophet');
 
+        const updatedItemSearched = await circulationRepo.getById(updatedItem._id);
+        assert.deepEqual(updatedItemSearched.Newspaper, 'Daily Prophet');
+
+        // remove
+
+
 
     } catch (error) {
         console.log(error);
